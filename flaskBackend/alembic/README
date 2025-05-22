@@ -1,0 +1,14 @@
+Generic single-database configuration.
+
+
+Steps to setup db:
+in the container (or from dc exec api)
+
+ensure all containers are up! From root:
+$dc up -d
+
+in order to generate a new migration
+$ docker compose exec api poetry run alembic revision --autogenerate -m "create example table"
+
+in order to upgrade that migration:
+$docker compose exec api alembic upgrade head

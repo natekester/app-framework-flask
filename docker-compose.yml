@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  postgres:
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: base_db
+    image: postgres:12-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - .data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: "./${API_DIRECTORY}"
+      args:
+        API_PORT: ${API_PORT}
+    depends_on:
+      - postgres
+    env_file: .env
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    volumes:
+      - "./${API_DIRECTORY}/src:/api/src"
+      - "./${API_DIRECTORY}:/api"
+
+  ui:
+    build:
+      context: ./ui
+      target: dev-server
+    depends_on:
+      - api
+    env_file: .env
+    ports:
+      - "${UI_PORT}:${UI_PORT}"
+    volumes:
+      - ./ui/src:/src
+      - ./ui/webpack.config.mjs:/webpack.config.mjs/
+      - ./ui/.babelrc:/.babelrc/
