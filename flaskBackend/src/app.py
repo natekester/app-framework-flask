@@ -31,7 +31,7 @@ def create_app():
         # Import models so they get registered properly
         import models
 
-        db.create_all()
+        # db.create_all()
 
     return app
 

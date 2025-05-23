@@ -1,7 +1,9 @@
-import factory
 from factory.alchemy import SQLAlchemyModelFactory
 from faker import Faker
 from models.example_table import ExampleTable, db, example_enum_type
+
+print("about to import factory")
+import factory
 
 fake = Faker()
 

@@ -1,5 +1,7 @@
 from sqlalchemy.dialects.postgresql import JSONB, ARRAY, ENUM
 from . import db
+from sqlalchemy.orm import relationship, Mapped
+from .sub_example_table import SubExampleTable
 
 example_enum_type = ENUM(
     "optionOne", "optionTwo", name="example_enum_type", create_type=False
@@ -21,6 +23,12 @@ class ExampleTable(db.Model):
 
     # Array of additional json types (e.g., ["fire", "poison"])
     array_example = db.Column(ARRAY(db.String), nullable=True)
+
+    # sub_examples = db.relationship("SubExampleTable", backref="example")
+
+    sub_examples: Mapped[list["SubExampleTable"]] = relationship(
+        back_populates="example"
+    )
 
     @classmethod
     def get_all(cls) -> list:

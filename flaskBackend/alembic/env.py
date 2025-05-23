@@ -6,7 +6,7 @@ from sqlalchemy import pool
 from src.models import db
 
 # importing to make sure it works
-from src.models import example_table
+from src.models import example_table, sub_example_table
 
 from alembic import context
 

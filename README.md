@@ -8,6 +8,58 @@ The front end is made in react.
 
 The db is postgres.
 
+## Running the App
+
+you'll want to copy the `.env.example` as `.env` and then build the app with docker.
+
+```
+docker compose build
+```
+
+followed by:
+
+```
+docker compose up
+```
+
+To create the `example_table` in the db, you need to create a migration, and then migrate up.
+
+First you need to run the alembic migration version command (utilizes the models to generate a version file at `flaskBackend/alembic/versions`):
+
+```
+docker compose exec api poetry run alembic revision --autogenerate -m "create example table"
+```
+
+Then you need to migrate up with:
+
+```
+docker compose exec api alembic upgrade head
+```
+
+As you create additional sqlAlchemy models, you will need to follow the above process again.
+
+### Testing
+
+The tests I have setup are pretty limited at the moment.
+
+Backend:
+
+```
+docker compose exec api poetry run pytest
+```
+
+UI:
+
+```
+docker compose exec ui yarn test
+```
+
+## Package management
+
+Python utilizes poetry here. I find it significantly easier than juggling pip and venv's.
+
+React uses yarn.
+
 ## Backend Design Patterns
 
 This follows the common design patterns you see for backend designs. An example of two prominent patterns:
